@@ -33,6 +33,7 @@ public:
 		m_node = node;
 	}
 	
+	T& operator*()
 	{
 		assert(m_node != nullptr);
 		return m_node->m_data;
@@ -87,7 +88,7 @@ public:
 	{
 		while (m_root)
 		{
-			Pop_Back();
+			Pop_Front();
 		}
 	}
 	
@@ -158,30 +159,6 @@ public:
 		m_size++;
 	}
 
-	
-	void Push_Front(T newData)
-	{
-		LinkNode<T>* node = new LinkNode<T>;
-
-		assert(node != nullptr);
-		node->m_data = newData;
-		node->m_next = nullptr;
-		node->m_previous = nullptr;
-
-		if (m_root != nullptr)
-		{
-			node->m_next = m_root;
-			m_root->m_previous = node;
-			m_root = node;
-		}
-		else
-		{
-			m_root = node;
-			m_lastNode = node;
-		}
-
-		m_size++;
-	}
 	void Pop_Front()
 	{
 		assert(m_root != nullptr);
@@ -227,28 +204,7 @@ public:
 
 		m_size++;
 	}
-	void Pop_Back()
-	{
-		assert(m_root != nullptr);
 
-		if (m_root->m_next == nullptr)
-		{
-			delete m_root;
-			m_root = nullptr;
-			m_lastNode = nullptr;
-		}
-		else 
-		{
-			LinkNode<T>* prevNode = m_lastNode->m_previous;
-
-			prevNode->m_next = nullptr;
-			delete m_lastNode;
-			m_lastNode = prevNode;
-			prevNode = nullptr;
-		}
-
-		m_size = (m_size == 0 ? m_size : m_size - 1);
-	}
 	int GetSize()
 	{
 		return m_size;

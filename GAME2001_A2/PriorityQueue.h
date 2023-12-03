@@ -111,7 +111,7 @@ class greater_cmp
 public:
 	inline bool operator()(T lVal, T rVal)
 	{
-		return !(lVal < rVal);
+		return lVal > rVal;
 	}
 };
 
@@ -143,7 +143,11 @@ public:
 	}
 	bool operator>(PriorityQueueData& m)
 	{
-		return !(*this < m);
+		if (m_priority > m.GetPriority())
+		{
+			return true;
+		}
+		return false;
 	}
 private:
 	int m_priority;
