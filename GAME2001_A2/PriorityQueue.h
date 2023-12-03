@@ -13,7 +13,6 @@ public:
 	}
 	~PriorityQueue() {}
 
-	// Priority Queue Functions
 	void push(T val)
 	{
 		assert(m_elements.GetSize() < m_size);
@@ -27,13 +26,13 @@ public:
 			LinkIterator<T> it;
 			it = m_elements.Begin();
 
-			CMP cmp;	// Placeholder for the comparisons
+			CMP cmp;	
 
 			while (it.isValid())
 			{
 				if (cmp(val, *it))
 				{
-					break;	// Move the iterator to the place where we want to insert the new node into
+					break;	
 				}
 
 				it++;
@@ -70,7 +69,6 @@ public:
 		return *it;
 	}
 
-	// Helper functions
 	int GetSize()
 	{
 		return m_elements.GetSize();
@@ -93,6 +91,61 @@ public:
 	}
 
 private:
-	LinkedList<T> m_elements; // Priority Queue Linked List
+	LinkedList<T> m_elements;
 	int m_size;
+};
+
+template<class T>
+class less_cmp
+{
+public:
+	inline bool operator()(T lVal, T rVal)
+	{
+		return lVal < rVal;
+	}
+};
+
+template<class T>
+class greater_cmp
+{
+public:
+	inline bool operator()(T lVal, T rVal)
+	{
+		return !(lVal < rVal);
+	}
+};
+
+template <class T>
+class PriorityQueueData
+{
+public:
+	PriorityQueueData() : m_priority(0), m_data() {}
+	PriorityQueueData(int p, T data) : m_priority(p), m_data(data) {}
+	~PriorityQueueData() {}
+
+	int GetPriority()
+	{
+		return m_priority;
+	}
+	T GetData()
+	{
+		return m_data;
+	}
+
+	bool operator<(PriorityQueueData& m)
+	{
+		if (m_priority < m.GetPriority())
+		{
+			return true;
+		}
+
+		return false;
+	}
+	bool operator>(PriorityQueueData& m)
+	{
+		return !(*this < m);
+	}
+private:
+	int m_priority;
+	T m_data;
 };
